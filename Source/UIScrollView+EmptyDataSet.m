@@ -406,7 +406,6 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             [view.button setAttributedTitle:[self dzn_buttonTitleForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
-            [view.button sizeToFit];
             
             // Configure spacing
             view.verticalSpace = [self dzn_verticalSpace];
@@ -862,6 +861,8 @@ NSString *dzn_implementationKey(id target, SEL selector)
     if ([self canShowButton]) {
         [views setObject:_button forKey:@"button"];
         [verticalSubviews addObject:@"[button]"];
+        
+        [_button sizeToFit];
         
         [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[button(%f)]", _button.frame.size.width + 20]
                                                                                  options:0 metrics:metrics views:views]];
