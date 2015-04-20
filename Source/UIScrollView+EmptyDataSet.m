@@ -406,7 +406,8 @@ static char const * const kEmptyDataSetView =       "emptyDataSetView";
             [view.button setAttributedTitle:[self dzn_buttonTitleForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateNormal] forState:UIControlStateNormal];
             [view.button setBackgroundImage:[self dzn_buttonBackgroundImageForState:UIControlStateHighlighted] forState:UIControlStateHighlighted];
-
+            [view.button sizeToFit];
+            
             // Configure spacing
             view.verticalSpace = [self dzn_verticalSpace];
         }
@@ -862,8 +863,16 @@ NSString *dzn_implementationKey(id target, SEL selector)
         [views setObject:_button forKey:@"button"];
         [verticalSubviews addObject:@"[button]"];
         
-        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-padding-[button]-padding-|"
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"H:[button(%f)]", _button.frame.size.width + 20]
                                                                                  options:0 metrics:metrics views:views]];
+        [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:[NSString stringWithFormat:@"V:[button(%f)]", _button.frame.size.height + 20]
+                                                                                 options:0 metrics:metrics views:views]];
+        [self.contentView addConstraint:[NSLayoutConstraint constraintWithItem:_button
+                                                                     attribute:NSLayoutAttributeCenterX
+                                                                     relatedBy:NSLayoutRelationEqual
+                                                                        toItem:self.contentView
+                                                                     attribute:NSLayoutAttributeCenterX
+                                                                    multiplier:1 constant:0]];
     }
     // or removes from its superview
     else {
